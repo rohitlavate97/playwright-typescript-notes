@@ -1,5 +1,8 @@
 --Playwright with TypeScript:
 ----------------------------
+--------------------
+--JavaScript Basics:
+--------------------
 To run any JavaScript file : eg: node basics.js
 
 console.log("Hello, World!");
@@ -42,6 +45,158 @@ Note: For const, we can't reassign also, it will throw TypeError: Assignment to 
 
 --Loops and Conditions in Js:
   --------------------------
+const flag = true
+if(flag) {
+    console.log("condtion is satisfied")
+} else {
+    console.log(flag);
+    console.log("condtion is not satisfied")
+}
 
+// while(true) {
+//     console.log("infinite loop")
+// }
+// while loop --> Run until the condition is true (while looks at the condition first and then executes the code)
+let i =0;
+while(i<5) {
+    console.log(i);
+    i++;
+}
+// do while loop
+let j=0;
+do{
+    j++;    
+} while(j<10);
+console.log(j);
 
+//For loop  --> initialization, condition, increment/decrement--> Run for n number of times
+for(let k=0;k<=5;k++){
+    console.log(k);
+}
 
+//From 1 to 10, give me common multiple of 2 and 5
+let n=0;
+for(let m=1;m<=10;m++){
+    if(m%2==0 && m%5==0) {
+        n++;
+    }
+}
+console.log(n);
+
+Note: We also can use break statement
+
+--Array: Collections of elements
+  -----
+let marks1 = Array(6);  //--> creates an array of length 6 with all elements as undefined
+let marks2 = new Array(20,40,35,12,37,100);  //--> creates an array with the given elements
+var marks3 = [20,40,35,12,37,100];  //--> creates an array with the given elements
+console.log(marks3[1]);  //--> access the element at index 1 (40)
+marks3[1] = 50;  //--> update the element at index 1 to 50
+console.log(marks3.length);  //--> get the length of the array (6)
+marks3.push(80);  //--> add an element (80) to the end of the array
+console.log(marks3);
+marks3.pop();  //--> remove the last element from the array
+console.log(marks3);
+marks3.unshift(10);  //--> add an element (10) to the beginning of the array
+console.log(marks3);
+marks3.shift();  //--> remove the first element from the array
+console.log(marks3);
+
+console.log(marks3.indexOf(35));  //--> get the index of the element 35 (2)
+console.log(marks1.includes(120));  //--> check if the element 120 is present in the array marks1 (false)
+//console.log(marks3.slice(1,4));  //--> get a subarray from index 1 to 3 (50,35,12)
+let submarks = marks3.slice(1,4);
+console.log(submarks);
+
+--reduce,filter,map:
+  -----------------
+//reduce, filter, map
+var marks3 = [20,40,35,12,37,100];
+var sum =0;
+for(let i=0;i<marks3.length;i++) {
+    sum = sum + marks3[i];
+}
+console.log(sum);
+
+//reduce  -> it takes a callback function and an initial value,
+//  it applies the callback function to each element of the array and returns a single value (i.e accumulate value)
+let totalMarks = marks3.reduce((sum,mark) => sum + mark, 0);  //--> 0 is the initial value of sum, pull each and every value from array 
+                                             // & put in mark and add to sum and return the final sum(sum is accumulator)
+//console.log(marks3.reduce((sum,mark) => sum + mark, 0)); --> Alternate for for loop to calculate sum
+console.log(totalMarks)
+
+var scores = [12,13,14,16];
+let evenscores = [];
+for(let i=0; i<scores.length;i++){
+    if(scores[i]%2==0) {
+        evenscores.push(scores[i]);
+    }
+}
+console.log(evenscores);
+
+//Filter --> it takes a callback function and returns a new array with all the elements that satisfy the condition
+let newFilterEvenScore = scores.filter(score => score%2==0);   // filters based on condition
+console.log(newFilterEvenScore);
+
+//Map --> it takes a callback function and returns a new array with the results of calling a provided function
+//  on every element in the calling array
+//example : multiply each element of scores by 3
+let mappedArray = newFilterEvenScore.map(score => score*3);  // maps each element to a new value based on the provided function
+console.log(mappedArray);
+
+console.log(mappedArray.reduce((sum, val) => sum + val, 0));  //--> reduce the mapped array to a single value
+
+//in single line
+console.log(scores.filter(score => score%2==0).map(score=>score*3).reduce((sum,val)=> sum+val,0));
+
+//Sorting array
+var names = ["John", "Alice", "Bob", "Charlie"];
+names.sort();
+console.log(names);
+
+var marksforSort = [20,40,35,12,37,100];
+console.log(marksforSort.sort());  //--> sorts the array in lexicographical order (12,20,35,37,40,100)
+
+var markSort = [12,003,19,16,14];  //normal sort will not work for numbers as it sorts in lexicographical order, so we need to provide a compare function to sort numbers in ascending order
+console.log(markSort.sort((a,b) => a-b));  //bubble sort
+
+--Functions: Block of code
+  ---------
+function add(a,b){
+    return a+b;
+}
+let sum = add(10,20);
+console.log(sum);
+
+//Anonymous function => function expression --> function without a name, assigned to a variable
+let sumOfInterger = function(a,b){
+    return a+b;
+}
+//Also we can use arrow function to write anonymous function in a shorter way, ie getting rid of function keyword and return statement
+let sumOfIntegerArrow = (a,b) => a+b; // => it is flat operator, it is used to write anonymous function in a shorter way
+console.log(sumOfIntegerArrow(10,20)); //at runtime, it will be converted to a normal function, it is just a syntactical sugar
+//Note: sumOfIntegerArrow is function name now (but we have declared it as a variable)-->10,20 sits in a and b respectively
+
+--Scope of keywords:
+  -----------------
+-var => Global level/Functional --> Scope will die in function only
+function add(a,b){
+    var greet = "Hello";  //--> function scope, it is accessible only within the function
+    return a+b;
+}
+console.log(greet);  //--> ReferenceError: greet is not defined, because it is not accessible outside the function
+
+It is better to use it at global level
+var greet = "Hello"; //--> global scope, it is accessible throughout the program
+function add(a,b){
+    return a+b;
+}
+console.log(greet); //--> Hello, because it is accessible throughout the program
+
+Note: var is not in block scope, it is in the function scope.
+var thank = "Thank you";
+if(1==1){
+    var thank = "Thanks";  //--> it will override the global variable thank, because var is not in block scope
+}
+console.log(thank); //--> Thanks, because the global variable was overridden
+Note: Although 'thank' is declared inside the block, var ignores block scope and modifies the outer variable. To fix this behavior, 'let' was introduced to provide proper block-level scoping.
