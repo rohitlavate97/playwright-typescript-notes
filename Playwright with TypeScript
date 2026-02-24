@@ -1,2 +1,47 @@
 --Playwright with TypeScript:
 ----------------------------
+To run any JavaScript file : eg: node basics.js
+
+console.log("Hello, World!");
+
+// This is a single-line comment
+
+/*
+This is a multi-line comment
+It can span multiple lines
+*/
+
+-Variables: Loosely tight
+----------
+At runtime, by seeing value JS intelligently identify datatype
+Until ES5 --> var for stroing values (var has disadvantages)
+After ES6 --> Introduced let and Const along with var (Note: var and let are almost same)
+
+let a = 4;
+console.log(a);
+console.log(typeof(a));
+//null and undefined --> don't assign any value to a variable, it will be undefined
+
+let b = 234.6;
+console.log(typeof(b));
+
+//let c = a + b;
+//console.log(c);
+
+var c = a + b;  //replaced with var to make it global
+console.log(c)
+
+-Note: We can not redeclare with let keyword, but possible with var keyword
+
+//Reassigning a value to a variable
+let c = "Rohit";
+    c = a + b;   //Allowed in case of let
+var c = "Rohit"; //Allowed in case of var
+
+Note: For const, we can't reassign also, it will throw TypeError: Assignment to constant variable
+
+--Loops and Conditions in Js:
+  --------------------------
+
+
+
