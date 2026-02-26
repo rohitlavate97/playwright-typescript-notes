@@ -16,3 +16,7 @@ console.log(diff)
 // String concatenation
 let newQuote = day + " is Funday"
 console.log(newQuote)
+let val = newQuote.indexOf("day"); // indexOf(substring) - returns the index of the first occurrence of a specified substring in a string, or -1 if it is not found
+console.log(val)
+let nextVal = newQuote.indexOf("day", 5) // indexOf(substring, fromIndex) - returns the index of the first occurrence of a specified substring in a string, starting the search at a specified index
+console.log(nextVal)

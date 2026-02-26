@@ -211,3 +211,89 @@ console.log(welcome); //--> Evening, because it is accessible outside the block 
 
 --String and its methods: Collections of characters
   ----------------------
+let day = 'Tuesday'
+console.log(day.length)
+let subday = day.slice(0,4)   // slice(startIndex, endIndex) - extracts a portion of a string and returns it as a new string
+console.log(subday)
+console.log(day[1]) // accessing character at index 1
+let splitday = day.split('s') // split(separator) - splits a string into an array of substrings based on a specified separator
+console.log(splitday)
+console.log(splitday[1].trim()) // trim() - removes whitespace from both ends of a string (leading and trailing whitespace)
+
+let date = '23'
+let nextDate = '27'
+let diff = parseInt(nextDate) - parseInt(date) // parseInt(string) - parses a string and returns an integer
+diff.toString() // toString() - converts a number to a string
+console.log(diff)
+
+// String concatenation
+let newQuote = day + " is Funday"
+console.log(newQuote)
+let val = newQuote.indexOf("day"); // indexOf(substring) - returns the index of the first occurrence of a specified substring in a string, or -1 if it is not found
+console.log(val)
+let nextVal = newQuote.indexOf("day", 5) // indexOf(substring, fromIndex) - returns the index of the first occurrence of a specified substring in a string, starting the search at a specified index
+console.log(nextVal)
+
+--Objects: Collection of properties-->JavaScript Object
+  -------
+let person = {
+                    firstName : "Tim",   //key-value pair
+					lastName : "Joe"
+					}
+console.log(person.firstName) // accessing value using dot notation
+console.log(person['lastName']) // accessing value using bracket notation
+person.firstName = "Tim Dane" // updating value using dot notation
+console.log(person.firstName)
+person['lastName'] = "Smith" // updating value using bracket notation
+console.log(person['lastName'])
+person.gender = 'Male' // adding new key-value pair using dot notation
+console.log(person)
+delete person.gender // deleting key-value pair using delete operator
+console.log(person)
+console.log('gender' in person) // in operator - checks if a key exists in an object, returns true or false
+//print all properties of the person object
+for(let key in person){ // for...in loop - iterates over the enumerable properties of an object
+    console.log(key + ": " + person[key]) // accessing value using bracket notation
+}
+
+let employee = {
+    name: "John Doe",
+    age: 30,
+    position: "Software Engineer",
+    details: function(){  // method - a function that is a property of an object
+    console.log(this.name + " is a " + this.position) // this keyword - refers to the current object;
+ }
+}
+console.log(employee.details()) // calling the method of the employee object
+
+
+--Classes: Introduced from ES6 Engine(Until then we store details in object)--> We can now represent entity in form of Class
+  -------
+class Person {
+    age = 34;
+}
+let person = new Person() // creating an instance of the Person class
+console.log(person.age) // accessing the age property of the person object
+person.age = 35 // updating the age property of the person object
+console.log(person.age) // accessing the updated age property of the person object
+
+// class Employee {
+//     age = 30;
+//     location = "New York";
+//     get location(){ // getter method - allows us to access the value of a property
+//         return this.location; // using a private variable to store the value of location
+//     }
+// }
+
+//Properties also can be accessed and updated using getter and setter methods. 
+// Getter methods allow us to access the value of a property, 
+// while setter methods allow us to update the value of a property. 
+// In the example above, we have defined a getter method for the location property, which returns the value of location when accessed.
+class Employee {
+    age = 30;
+    //location = "New York";
+    get location(){ // getter method - allows us to access the value of a property
+        return "New York"; // using a private variable to store the value of location
+    }
+}
+console.log(employee.location) // accessing the location property of the employee object using the getter method
