@@ -33,3 +33,11 @@ if(1==1){
                            //  'let' was introduced to provide proper block-level scoping.
 }
 console.log(thank); //--> Thanks, because the global variable was overridden
+
+//let => global level/block level scope, it is not accessible outside the block
+let welcome = "Evening";
+if(1==1){
+    let welcome = "Morning"; //--> block scope, it is accessible only within the block
+    console.log(welcome); //--> Morning, because it is accessible within the block
+}
+console.log(welcome); //--> Evening, because it is accessible outside the block and the inner variable does not affect the outer variable
