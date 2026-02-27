@@ -43,6 +43,8 @@ var c = "Rohit"; //Allowed in case of var
 
 Note: For const, we can't reassign also, it will throw TypeError: Assignment to constant variable
 
+Note: y = 3 //If we don't mention type of variable--> It is by default var
+
 --Loops and Conditions in Js:
   --------------------------
 const flag = true
@@ -336,3 +338,103 @@ console.log(person.fullName()) // calling the fullName method of the person obje
   -----------
 -The class which inherits the properties of other class is known as Subclass/Derived class/child class
 -The class whose properties are inherited is known as SuperClass
+
+const person = require('./basics9') //const is used so that we cannot reassign the value of person variable, 
+// but we can still modify the properties of the person object.
+class Pet extends person { // using the extends keyword to create a subclass of the Person class, 
+// which inherits all the properties and methods of the Person class
+    constructor(firstName, lastName){
+        super(firstName, lastName) // using the super keyword to call the constructor of the parent class (Person class) and pass the arguments to it,
+        // so that the properties of the parent class are initialized when an object of the subclass is created
+    }
+    get location(){ // overriding the location property of the parent class (Person class) with a new value for the Pet class
+        return "Los Angeles"; // returning a new value for the location property for the Pet class
+    }
+}
+let pet = new Pet("Buddy", "Smith") // creating an instance of the Pet class and passing values to the constructor
+console.log(pet.fullName()) // calling the fullName method of the pet object to get the full name of the pet, which is inherited from the Person class
+console.log(pet.location) // accessing the location property of the pet object, which is overridden in the Pet class to return a new value
+
+--Commonly asked JavaScript Interview Questions:
+  ---------------------------------------------
+-Q.1 Can JS object hold a function as a property?
+const person = {
+             name : "John",
+			 age : 30,
+			 greet : function() {
+			         console.log("Hello, I am "+this.name)
+					 }
+		}
+person.name
+person.greet();
+
+-Q.2 What are anonymous functions in JS? Define syntax and implementation
+ const greet = function(name){
+     return "Hello, I am "+name;
+	 }
+ console.log(greet);
+ 
+-Q.3 Difference between var,const and let
+//var is function scoped or globally-scoped and can be redeclared and updated
+ example: function varEx(){
+                         var x = 1;
+						 if(true){
+						  var x =2 ;
+						  console.log(x);
+						 }
+						 console.log(x);
+				}
+				
+//let is block scoped and can be updated but not re-declared with the same scope
+  example: function letEx(){
+                         let x =1
+						 if(true){ 
+						 let x=2;
+						 console.log(x);
+						}
+						console.log(x);
+					}
+
+//const is block scoped and cannot be updated or redclared
+ example: function constEx(){
+                  const x =1 ;
+				  if(true){
+				    const x = 2;
+					console.log(x);
+				  }
+				  x = 3;
+				  console.log(x);
+				 }
+	       constEx()
+		   
+-Q.3 Where are the push,pop,slice,shift and unshift methods used when accessing array elements?
+const fruits = ["apple", "banana", "cherry", "date", "elderberry"];
+//Access element by index
+console.log(fruits[2]);  // Output: "cherry"
+//Add element to the end of the array
+fruits.push("fig");
+console.log(fruits);
+//Remove the last element from the array
+const lastFruit = fruits.pop();
+console.log(lastFruit);  // Output: "fig"
+console.log(fruits);
+//Add element to the beginning of the array
+fruits.unshift('grapes');
+console.log(fruits);
+//Remove the first element from the array
+const firstFruit = fruits.shift();
+console.log(firstFruit);
+console.log(fruits);
+//Find the index of an element
+const index = fruits.indexOf("date");
+console.log(index);
+//remove an element by index
+const removedFruits = fruits.splice(index, 1); // removes 1 element at the specified index (index of "date") and returns the removed element(s) as an array
+console.log(removedFruits);
+console.log(fruits);
+//Iterate over the array
+fruits.forEach((fruit, i) => {
+    console.log(`${i}: ${fruit}`);
+});
+
+-Q.4  Is JavaScript Asynchronous? Prove with example
