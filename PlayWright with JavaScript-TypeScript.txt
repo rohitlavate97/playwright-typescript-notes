@@ -1,0 +1,42 @@
+--Features of PlayWright: 
+  ----------------------
+  -PlayWright has Auto-wait capability
+  -It supports all major browser
+  -Multiplatform
+  -Multi-Lingual Flexibility --> JavaScript, TypeScript, Java, Python etc
+
+Note: Action for which autowait functionality --> https://playwright.dev/docs/actionability
+
+ -Advanced Features:
+  -----------------
+  -Tracing and Debuging(Built-in capability): automatic screenshots, test video recordings and comprehensive logging
+  -Network Interception: API testing library intercepts and validate network calls (test edge case scenarios)
+  -Browser context management: Browser context feature allows you to save and transfer broser state across your test suite, 
+                              improving test efficiency and reducing overhead of setting up same browser state for each Test Case
+							  (For this to happen, take cookies/storage info from logged in browser and copy into incognito if you open icongnito
+							  so that it can log their too.)
+  -Codegen tool: Generates test code by recording your actions
+  
+--Install Node.js and VS Code by setting up playwright environment:
+  ----------------------------------------------------------------
+  Node.js runs on V8 engine
+  -Install Node.js
+  -Install VS Code
+  -Documentation: https://playwright.dev
+  -After installation of Node.js --> Go to C:\Program Files\nodejs --> Copy Path
+                                 --> Go to System Environmental Properties --> Environment variable --> System Variables --> New
+								     Paste  Path by creating variable--> NODE_HOME
+  -Install playwright dependencies --> npm init playwright@latest
+                                   It will ask: TypeScript or JavaScript → choose what you prefer
+								                Install browsers? → Yes
+												Add GitHub Actions? → Optional
+												This automatically installs: Playwright,Browsers (Chromium, Firefox, WebKit),Example tests,Config file
+												
+--PlayWright Automation Core Concepts:
+  -----------------------------------
+  Steps: Open VS Code--> Create Folder --> Install Playwright dependency via terminal (Answer Questions:
+                                                             JS/TS, Where to put End to end tests? --> tests(folder), Adde Github Actions workflow-->true)
+		 Go to Folder--> playwright.config.js --> This is TestRunner for entire project test cases
+		                 package.json --> Default file created for every node project, contains info about playwright dependencies
+		 tests folder--> example.spec.js --> test cases demo
+		 node-module folder--> playwright
