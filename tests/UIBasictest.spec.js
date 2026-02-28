@@ -1,4 +1,4 @@
-const { test } = require('@playwright/test')
+const { test,expect } = require('@playwright/test')
 //These test are executed to launch the browser and provide a fresh page to each test
 //to write new test write test() which takes two parameters, first is the name of the test,
 // and second is an async function which contains the test steps
@@ -12,4 +12,11 @@ test("Browser context declareation", async ({browser}) =>
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+})
+
+test("page playwright test", async ({page}) =>{
+    await page.goto("https://www.google.com/");
+    //get title assertion
+    console.log(await page.title());
+    await expect(page).toHaveTitle("Google");
 })
