@@ -20,3 +20,37 @@ test("page playwright test", async ({page}) =>{
     console.log(await page.title());
     await expect(page).toHaveTitle("Google");
 })
+
+test("Brwoser context playwright test", async({browser}) =>{
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    console.log(await page.title());
+    //await page.locator('#username').type("rahulshetty");
+    await page.locator('#username').fill("rahulshetty");
+    await page.locator('#password').fill("learning");
+    await page.locator('#signInBtn').click();
+    console.log(await page.locator("[style*='block']").textContent());
+    await expect(page.locator("[style*='block']")).toContainText("Incorrect");
+})
+
+test.only("Browser context-validating Error login", async({ browser }) =>{
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    console.log(await page.title());
+    const username = page.locator('#username');
+    const password = page.locator('#password');
+    const signInBtn = page.locator('#signInBtn');
+    await username.fill("rahulshetty");
+    await password.fill("Learning@830$3mK2");
+    await signInBtn.click();
+    console.log(await page.locator("[style*='block']").textContent());
+    await expect(page.locator("[style*='block']")).toContainText("Incorrect");
+    await username.fill("");
+    await username.fill("rahulshettyacademy");
+    await signInBtn.click();
+    //console.log(await page.locator(".card-body a").textContent()); //Strict mode violation, multiple element will be found
+    //console.log(await page.locator(".card-body a").first().textContent());  //This works
+    console.log(await page.locator(".card-body a").nth(0).textContent()); //This also works
+})

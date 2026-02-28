@@ -147,4 +147,79 @@ test("page playwright test", async ({page}) =>{
     console.log(await page.title());
     await expect(page).toHaveTitle("Google");
 })
+
+Note: Their are two types of timeout --> timeOut: 30*1000; -->Global timeOut
+                                     --> expect: {
+									        timeOut:5000   -->Assertion
+										}
+
+--Playwright Basic methods for Web Automation Test:
+  ------------------------------------------------
+ -Playwright support CSS Selector, xpath (Predominantly supports css)
+ -page.locator() --> to locate element
+ -Rules to write CSS Selector:
+  ---------------------------
+  -If id  is present --> CSS --> tagName#id or #id
+  -If class attribute is present --> CSS --> tagName.class or .class
+  -Write CSS based on any attribute --> CSS --> [attribute = 'value']
+  -Write CSS with traversing from parent to child --> CSS --> parenttagName>>childtagName
+  -If nees to write locator based on text --> text = ''
   
+-----------------------------------------
+|              SIGN IN                 |
+-----------------------------------------
+| Username : [____________________]     |          //To input value in edit box --> fill() --> also can be used to clear field --> fill("")
+| Password : [____________________]     |          //earlier we used type(), but now it is deprecated
+|                                       |
+| Role:  ( ) Admin   ( ) User          |
+|                                       |
+| [ ] I Agree                          |
+|                                       |
+|        [   Sign In   ]               |
+-----------------------------------------
+
+-Extracting the text from browser and inserting valid expect assertion in test:
+ -----------------------------------------------------------------------------
+ https://rahulshettyacademy.com/loginpagePractise/
+ Scenario: When user inpt wrong credential and click on sign in --> alert displays and quickly vanishes
+ style="display: none;" -> changes to -> style="display: block;" --> we get error message  as 'Incorrect Username/Password' or ('Empty username/password.' in case of empty)
+ To find error message --> [style*='block'] --> Here * means, we can give it partially attribute value.
+ Playwright has intelligence-->If element is not present on page, it will wait few second to decide, to make sure and it's displaying or not
+ textContent() --> To extract text from element or locator
+eg:
+test.only("Brwoser context playwright test", async({browser}) =>{
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    console.log(await page.title());
+    //await page.locator('#username').type("rahulshetty");
+    await page.locator('#username').fill("rahulshetty");
+    await page.locator('#password').fill("learning");
+    await page.locator('#signInBtn').click();
+    console.log(await page.locator("[style*='block']").textContent());
+    await expect(page.locator("[style*='block']")).toContainText("Incorrect");
+})
+
+-Locators to extract multiple webElements in page:
+ ------------------------------------------------
+test.only("Browser context-validating Error login", async({ browser }) =>{
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    console.log(await page.title());
+    const username = page.locator('#username');
+    const password = page.locator('#password');
+    const signInBtn = page.locator('#signInBtn');
+    await username.fill("rahulshetty");
+    await password.fill("Learning@830$3mK2");
+    await signInBtn.click();
+    console.log(await page.locator("[style*='block']").textContent());
+    await expect(page.locator("[style*='block']")).toContainText("Incorrect");
+    await username.fill("");
+    await username.fill("rahulshettyacademy");
+    await signInBtn.click();
+    //console.log(await page.locator(".card-body a").textContent()); //Strict mode violation, multiple element will be found
+    //console.log(await page.locator(".card-body a").first().textContent());  //This works
+    console.log(await page.locator(".card-body a").nth(0).textContent()); //This also works
+})
+
