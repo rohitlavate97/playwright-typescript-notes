@@ -40,3 +40,56 @@ Note: Action for which autowait functionality --> https://playwright.dev/docs/ac
 		                 package.json --> Default file created for every node project, contains info about playwright dependencies
 		 tests folder--> example.spec.js --> test cases demo
 		 node-module folder--> playwright
+		 
+--Importance of PlayWright Test Annotation and async await understanding:
+  ----------------------------------------------------------------------
+  Go to test folder --> Create a file = UIBasictest.spec.ts
+                        To import annoation @playwright/test --> require('@playwright/test') i.e need to use this line
+
+-JavaScript is async --> All steps try to execute at a time, need to explicitly i.e await for every step 
+                      -> To activate this await, function should be marked as async
+ex:						
+const { test } = require('@playwright/test')
+//These test are executed to launch the browser and provide a fresh page to each test
+//to write new test write test() which takes two parameters, first is the name of the test,
+// and second is an async function which contains the test steps
+test('First playwright test', async function() {
+  //Playwrright code
+});
+
+Also we can use Anonymous function
+const { test } = require('@playwright/test')
+//These test are executed to launch the browser and provide a fresh page to each test
+//to write new test write test() which takes two parameters, first is the name of the test,
+// and second is an async function which contains the test steps
+test('First playwright test',async () => {
+  //Playwrright code
+});
+
+--Browser context and page fixtures: page fixtures are global variables, total 4 fixtures available in playwright
+  ---------------------------------
+  fixtures wrap in curly braces so that it will understand that it is playwright fixture. e.g {browser}
+  -browser is a fixture, globally available -> for each and every tests, need to involve browser, so we need to send as parameter of test function, and it passed inside body.
+   browser.newContext() --> Need to open fresh browser i.e fresh instance(like incognito), it starts browser with fixed properties. Also we can inject cookies inside method parameter
+                            So playwright will open fresh browser(with inbuilt proxy or pinging) with injected cookies
+   context.newPage() --> To open new page, it will creates actual page to automate.hit url and start automation
+   page.goto("https://rahulshettyacademy.com/loginpagePractise/") --> If we want to hit url
+   
+  -If you don't want to configure context, then their is another fixture --> async({ browser, page }) 
+       i.e we don't have any special(i.e cookies or proxy etc) to inject in browser, we want blank context i.e default context and page will be given by playwright
+ex:
+test("Browser context declareation", async ({browser}) =>
+{
+    //chrome plugins or cookies
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+})
+
+--Playwright configuration file and its details to run the tests: --> playwright.config.js refer this file
+  --------------------------------------------------------------
+  contains details about what tests to run, what browser to trigger, timeouts
+  -testDir --> test Directory --> To tell what tests are present --> This will triggers ./tests/___ ->also particular tests we can add.
+  -timeOuts -> by default for each test 30 sec, also their is expect timeout, for Assertion validation
+               We can override in defineConfig{}
+  -what browser you want to run will be provided in -->  use:{}
