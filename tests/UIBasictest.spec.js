@@ -34,7 +34,7 @@ test("Brwoser context playwright test", async({browser}) =>{
     await expect(page.locator("[style*='block']")).toContainText("Incorrect");
 })
 
-test.only("Browser context-validating Error login", async({ browser }) =>{
+test("Browser context-validating Error login", async({ browser }) =>{
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
@@ -52,5 +52,11 @@ test.only("Browser context-validating Error login", async({ browser }) =>{
     await signInBtn.click();
     //console.log(await page.locator(".card-body a").textContent()); //Strict mode violation, multiple element will be found
     //console.log(await page.locator(".card-body a").first().textContent());  //This works
-    console.log(await page.locator(".card-body a").nth(0).textContent()); //This also works
+    //console.log(await page.locator(".card-body a").nth(0).textContent()); //This also works
+    const cardTitles = page.locator(".card-body a");
+    console.log(await cardTitles.first().textContent());  //for textContent() --> Page will wait  until locator is attached to dom.
+    const allTitles = await cardTitles.allTextContents(); //for allTextContent() -->returns array and  page don't wait, as no synchronization provided in playwright 
+    // so if we comment previous line test will fail.
+    console.log(allTitles);
+    
 })

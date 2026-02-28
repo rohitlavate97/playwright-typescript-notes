@@ -223,3 +223,85 @@ test.only("Browser context-validating Error login", async({ browser }) =>{
     console.log(await page.locator(".card-body a").nth(0).textContent()); //This also works
 })
 
+--How wait mechanism works if list of elements are returned:
+  ---------------------------------------------------------
+test.only("Browser context-validating Error login", async({ browser }) =>{
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    console.log(await page.title());
+    const username = page.locator('#username');
+    const password = page.locator('#password');
+    const signInBtn = page.locator('#signInBtn');
+    await username.fill("rahulshetty");
+    await password.fill("Learning@830$3mK2");
+    await signInBtn.click();
+    console.log(await page.locator("[style*='block']").textContent());
+    await expect(page.locator("[style*='block']")).toContainText("Incorrect");
+    await username.fill("");
+    await username.fill("rahulshettyacademy");
+    await signInBtn.click();
+    //console.log(await page.locator(".card-body a").textContent()); //Strict mode violation, multiple element will be found
+    //console.log(await page.locator(".card-body a").first().textContent());  //This works
+    //console.log(await page.locator(".card-body a").nth(0).textContent()); //This also works
+    const cardTitles = page.locator(".card-body a");
+    console.log(await cardTitles.first().textContent());  //for textContent() --> Page will wait  until locator is attached to dom.
+    const allTitles = await cardTitles.allTextContents(); //for allTextContent() -->returns array and  page don't wait, as no synchronization provided in playwright 
+    // so if we comment previous line test will fail. --> will return empty array
+    console.log(allTitles);
+})
+
+Note: For single element, if not found--> It understands may be page is not loaded, so let us wait(Attached mode activated) --> But List can be empty or 0 value 
+
+--Techniques to wait dynamically for new page in service based application:
+  ------------------------------------------------------------------------
+const { expect, test } = require("@playwright/test");
+test.only("Validating wait mechanism in playwright", async ({ browser }) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto("https://rahulshettyacademy.com/client");
+    await page.locator('#userEmail').fill("rohit.lavate287@gmail.com");
+    await page.locator('#userPassword').fill('Admin@123');
+    await page.locator("[value='Login']").click();
+    //Implement wait mechanism --> In network all data is driven by API calls/Service calls, 
+    // so we can wait for API call to get completed and then move forward with next step (Fetch/xhr)
+    //await page.waitForLoadState('networkidle'); //wait for network to be idle, means all API calls are completed
+    //but above line is not recommended in official documentation, as it will wait for all API calls to get completed, 
+    // It may fail sometimes
+    //so solution is use waitFor() method --> It will wait for specific Single element, not for multiple
+    await page.locator(".card-body b").first().waitFor(); //wait for first element to be visible
+    const titles = await page.locator(".card-body b").allTextContents();
+    console.log(titles);
+})
+
+--Handling UI Components: --> DropDown, Radio Buttons, Child Windows etc
+  ----------------------
+ -Handling static select dropdown options with playwright:
+  -------------------------------------------------------
+const {test, expect} = require('@playwright/test');
+test.only("Handling Select dropdown in playwright", async ({browser}) =>{
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    const username = page.locator('#username');
+    const signIn = page.locator('#signInBtn');
+    await username.fill("rahulshettyacademy");
+    const dropdown = page.locator('select.form-control');
+    await dropdown.selectOption("Teacher");
+    //await page.pause(); //This will pause the test execution and open the playwright inspector,
+    //  where we can interact with the page and see the test steps
+    await page.locator('.radiotextsty').last().click(); 
+    //first() --> will select first element, last() --> will select last element, 
+    // nth(1) --> will select second element. These are used when multiple elements are found for the locator,
+    //  and we want to select specific element.
+    await page.locator('#okayBtn').click();
+    await expect(page.locator('.radiotextsty').last()).toBeChecked(); //toBeChecked() --> will check if the element is checked or not, it will return true or false
+    //console.log(await expect(page.locator('.radiotextsty').last()).isChecked()); //isChecked() --> will check if the element is checked or not, it will return true or false
+    await page.locator('#terms').click();
+    await expect(page.locator('#terms')).toBeChecked();
+    //await page.locator('.terms').waitFor({ state: 'visible', timeout: 5000 });
+    await page.locator('#terms').uncheck(); //uncheck() --> will uncheck the checkbox, if it is already checked, if it is not checked, it will do nothing
+    expect(await page.locator('#terms').isChecked()).toBeFalsy(); 
+    //toBeFalsy() --> will check if the element is not checked, it will return true, if it is checked, it will return false
+    //toBeTruthy() --> will check if the element is checked, it will return true, if it is not checked, it will return false
+});
