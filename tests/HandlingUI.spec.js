@@ -34,7 +34,7 @@ test("UI Blinking text verification", async({browser}) => {
     await expect(documentLink).toHaveAttribute("class","blinkingText");
 });
 
-test.only("@Child window handling in playwright", async({browser}) => {
+test("@Child window handling in playwright", async({browser}) => {
     const context = await browser.newContext();
     const page = await context.newPage()
     //page variable has knowledge of the parent window, so we can use it to interact with the parent window 
