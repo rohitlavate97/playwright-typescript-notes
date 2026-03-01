@@ -33,3 +33,31 @@ test("UI Blinking text verification", async({browser}) => {
     const documentLink = page.locator("[href*='documents-request']");
     await expect(documentLink).toHaveAttribute("class","blinkingText");
 });
+
+test.only("@Child window handling in playwright", async({browser}) => {
+    const context = await browser.newContext();
+    const page = await context.newPage()
+    //page variable has knowledge of the parent window, so we can use it to interact with the parent window 
+    // and also we can use it to interact with the child window.
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    const documentLink = page.locator("[href*='documents-request']");
+    //When we click on the document link, it will open a new window, 
+    // so we need to handle that new window. For that we have to swith context to the new window, 
+    // and then we can interact with the new window.
+    //context.waitForEvent('page')  //This inovkes listener, wait for new page to open, when we click on the document link, 
+    // it will open a new page, so we have to wait for that page to open
+    const [newPage] = await Promise.all([
+        context.waitForEvent('page'), //Wait for new page to open
+        documentLink.click() //Click on the document link, which will open a new page
+    ]);
+    await newPage.waitForLoadState(); //Wait for the new page to load completely, before we interact with it
+    const text = await newPage.locator(".red").textContent();
+    console.log(text);
+    const arrayText = text.split("@");
+    const domain = arrayText[1].split(" ")[0];
+    console.log(domain);
+    //now swith back to the parent window, and fill the username with the domain name we got from the child window
+    await page.locator('#username').fill(domain);
+    //await page.pause();
+    console.log(await page.locator('#username').textContent());
+});

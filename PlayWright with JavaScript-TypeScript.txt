@@ -375,3 +375,30 @@ test.only("@Child window handling in playwright", async({browser}) => {
     //await page.pause();
     console.log(await page.locator('#username').textContent());
 });
+
+--Playwright Inspectors, Trace Viewers and Codegen tool:
+  -----------------------------------------------------
+  - We can debug test using -->npx playwright test tests\HandlingUI.spec.js --debug
+                               Playwright inspector opens (Playwright highlights element on which it performs action)
+							   Also log can be seen --> trace of execution can be seen
+							   With help of Explorer in inspector we can generate CSS or validate CSS also by typing (it will be highlighted)
+							   
+  -Codegen tool to record and playback with generated automation script: 
+                              Go to Terminal --> npx playwright codegen http://google.com (url you want to automate)
+                              Perform operations and code will generate
+
+  -Detailed view or Test traces, HTML Reports, logs and Screenshots for test result:
+                            go to playwright.config.js file--> and in use: --> add screenshot: 'on', trace: 'on'(complete log of every execution step)
+e.g:
+  use: {
+    browserName: 'chromium',
+    headless: false,
+    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    screenshot: 'on',
+    trace: 'on',         //on,off or retain-on-failure
+  },							
+                           run test --> refresh folder --> test result folder will be generated, playwright-report-> index.html
+						   Traces: select trace hyperlink --> zip file downloaded --> go to trace.playwright.dev and select downloaded file
+						                                  -->every step can be seen with screenshot (before,action,after)
+						   go to test-results folder -->trace.zip available, can export also
+						   To get traces only for failed --> go to playwright.config.js --> trace: 'retain-on-failure'

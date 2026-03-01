@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, devices } from '@playwright/test';
+const { defineConfig, devices } = require('@playwright/test');
 
 /**
  * Read environment variables from file.
@@ -31,7 +31,8 @@ const config = defineConfig({
     browserName: 'chromium',
     headless: false,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    screenshot: 'on',
+    trace: 'on',
   },
 
   /* Configure projects for major browsers */
