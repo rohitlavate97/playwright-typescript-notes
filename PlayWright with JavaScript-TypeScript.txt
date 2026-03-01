@@ -305,3 +305,73 @@ test.only("Handling Select dropdown in playwright", async ({browser}) =>{
     //toBeFalsy() --> will check if the element is not checked, it will return true, if it is checked, it will return false
     //toBeTruthy() --> will check if the element is checked, it will return true, if it is not checked, it will return false
 });
+
+--Using async await with Assertions and Understand validations the attributes: await required only doing action, which storing in variable
+  ---------------------------------------------------------------------------
+  -await expect(page.locator('#terms')).toBeChecked();             //we are using await
+  -expect(await page.locator('#terms').isChecked()).toBeFalsy();   //Here it is not required
+  In the first case, toBeChecked() is an async Playwright assertion that includes auto-wait and retry mechanism, so it returns a Promise and must be awaited.
+  In the second case, isChecked() returns a boolean after awaiting it, and the expect function is a synchronous assertion on that resolved value, 
+  so expect itself does not need await.
+  
+| Type                                  | Auto Wait | Retry | Async Expect | Recommended |
+| ------------------------------------- | --------- | ----- | ------------ | ----------- |
+| `await expect(locator).toBeChecked()` | ✅ Yes     | ✅ Yes | Yes          | ⭐⭐⭐⭐⭐       |
+| `expect(await locator.isChecked())`   | ❌ No      | ❌ No  | No           | ⚠️ Risky    |
+
+  
+  In Playwright:locator.isChecked() → returns Promise<boolean>
+                expect(locator).toBeChecked() → returns Promise<void> (async assertion with auto-wait)
+				So both involve async operations — but at different levels.
+				
+test.only("UI Blinking text verification", async({browser}) => {
+    const context = await browser.newContext();
+    const page = await context.newPage()
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    const documentLink = page.locator("[href*='documents-request']");
+    await expect(documentLink).toHaveAttribute("class","blinkingText");
+});
+Note: If we click link and it opens in another page --> Problem as playwright have knowledge of this page, not new page. So we have to create new page
+
+--Handling child windows and Tabs with playwright by switching browser context:
+  ----------------------------------------------------------------------------
+  -Status of opearation, whatever it returns is called Promise
+  -3 state of promise --> pending, rejected, fulfilled
+   Pending --> Under process of execution, if don't have await, it will go to next step
+   Rejected --> Step failed (e.g --> ObjectNotFound)
+   Fullfilled --> Step successfully executed
+   
+   -await context.waitForEvent('page')   //Both lines will return Promise
+    documentLink.click();
+	 when set of steps need to be parallely go and wait until these steps successfully accomplished, these steps we can wrap in one array --> Promise.all();
+	 Promise.all() --> Takes an array of Promises
+	 First step is pending, then it go to next step perform operation, it won't proceed next. it will come out of array only when all steps of promise are fullfilled 
+	 i.e waits until both successful
+	 
+test.only("@Child window handling in playwright", async({browser}) => {
+    const context = await browser.newContext();
+    const page = await context.newPage()
+    //page variable has knowledge of the parent window, so we can use it to interact with the parent window 
+    // and also we can use it to interact with the child window.
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    const documentLink = page.locator("[href*='documents-request']");
+    //When we click on the document link, it will open a new window, 
+    // so we need to handle that new window. For that we have to swith context to the new window, 
+    // and then we can interact with the new window.
+    //context.waitForEvent('page')  //This inovkes listener, wait for new page to open, when we click on the document link, 
+    // it will open a new page, so we have to wait for that page to open
+    const [newPage] = await Promise.all([
+        context.waitForEvent('page'), //Wait for new page to open
+        documentLink.click() //Click on the document link, which will open a new page
+    ]);
+    await newPage.waitForLoadState(); //Wait for the new page to load completely, before we interact with it
+    const text = await newPage.locator(".red").textContent();
+    console.log(text);
+    const arrayText = text.split("@");
+    const domain = arrayText[1].split(" ")[0];
+    console.log(domain);
+    //now swith back to the parent window, and fill the username with the domain name we got from the child window
+    await page.locator('#username').fill(domain);
+    //await page.pause();
+    console.log(await page.locator('#username').textContent());
+});

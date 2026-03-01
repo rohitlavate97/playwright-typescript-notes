@@ -1,5 +1,5 @@
 const {test, expect} = require('@playwright/test');
-test.only("Handling Select dropdown in playwright", async ({browser}) =>{
+test("Handling Select dropdown in playwright", async ({browser}) =>{
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
@@ -24,4 +24,12 @@ test.only("Handling Select dropdown in playwright", async ({browser}) =>{
     expect(await page.locator('#terms').isChecked()).toBeFalsy(); 
     //toBeFalsy() --> will check if the element is not checked, it will return true, if it is checked, it will return false
     //toBeTruthy() --> will check if the element is checked, it will return true, if it is not checked, it will return false
+});
+
+test("UI Blinking text verification", async({browser}) => {
+    const context = await browser.newContext();
+    const page = await context.newPage()
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    const documentLink = page.locator("[href*='documents-request']");
+    await expect(documentLink).toHaveAttribute("class","blinkingText");
 });
