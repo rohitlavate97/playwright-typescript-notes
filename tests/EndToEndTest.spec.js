@@ -54,6 +54,17 @@ test.only("Client App Login", async ({browser}) => {
     await expect(page.locator('.hero-primary')).toHaveText(" Thankyou for the order. ");
     const orderId = await page.locator('.em-spacer-1 .ng-star-inserted').textContent();
     console.log(orderId);
+    //Go to orders
+    await page.locator("button[routerlink*='myorders']").click();
+    //Get all rows
+    const rows = page.locator('tbody tr');
+    for(let i=0;i<await rows.count();i++){
+        const rowOrderId = await rows.nth(i).locator("th").textContent();
+        if(orderId.includes(rowOrderId)){
+            await rows.nth(i).locator("button").first().click();
+            break;
+        }
+    }
     await page.pause();
 });
 
