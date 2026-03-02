@@ -1,0 +1,93 @@
+Module 4: Getting Started with Playwright (4 Hours)
+
+🔴Session 8: Introduction to Playwright (1 Hour)
+
+What is Playwright?
+Advantages over Selenium.
+Playwright architecture and features.
+🔴Session 9: Installation and Project Setup (1 Hour)
+
+Setting up a Maven project.
+Adding Playwright dependencies.
+Writing and running the first test script.
+🔴Session 10: Browser Automation Basics (2 Hours)
+
+Launching browsers (Headed vs Headless).
+Handling multiple browser contexts.
+Managing browser sessions and cookies.
+ 
+
+📗Module 5: Web Elements and Interactions (6 Hours)
+
+🟡Session 11: Locators and Element Handling (2 Hours)
+
+Playwright locators (CSS, XPath, Text).
+Handling dynamic elements and waits.
+Auto-waiting and retry mechanisms.
+🟡Session 12: Working with Forms and Dropdowns (2 Hours)
+
+Filling input fields, checkboxes, and radio buttons.
+Handling dropdowns (Select, Auto-suggest).
+File upload and download.
+🟡Session 13: Handling Alerts, Windows, and Frames (2 Hours)
+
+Working with JavaScript alerts.
+Managing multiple windows and tabs.
+Handling frames and nested frames.
+ 
+
+📘Module 6: Advanced Playwright Features (6 Hours)
+
+🟠Session 14: Assertions and Test Validations (2 Hours)
+
+Different types of assertions in Playwright.
+Verifying UI elements and text values.
+Validating URLs and browser navigation.
+🟠Session 15: Screenshots, Videos, and Debugging (2 Hours)
+
+Capturing screenshots and videos.
+Using Playwright Inspector for debugging.
+Tracing and log analysis.
+🟠Session 16: Handling Web Tables and Complex Elements (2 Hours)
+
+Extracting data from tables.
+Handling shadow DOM elements.
+Working with modals and pop-ups.
+ 
+
+📒Module 7: Playwright Test Automation Framework (7 Hours)
+
+🔵Session 17: Page Object Model (POM) in Playwright (2 Hours)
+
+What is POM?
+Implementing Page Object Model in Playwright.
+Structuring a test framework.
+🔵Session 18: Hybrid Framework Implementation (2 Hours)
+
+Configuring a Playwright Hybrid Framework.
+Parameterization using external data sources.
+Logging and reporting test execution.
+🔵Session 19: CI/CD with Git and Jenkins (2 Hours)
+
+Running Playwright tests in Jenkins.
+Integrating Playwright with GitHub Actions.
+Generating and analyzing reports.
+🔵Session 20: API Testing with Playwright (1 Hour)
+
+Introduction to API testing.
+Making API calls using Playwright.
+Validating API responses.
+ 
+
+📔Module 8: Live Project & Bonus (2 Hours)
+
+🟤Session 21: Live Project Implementation (1 Hour)
+
+Creating a real-world test automation suite.
+End-to-end testing scenario.
+🟤Session 22: Best Practices & Bonus Topics (1 Hour)
+
+Performance optimization tips.
+Common Playwright challenges and solutions.
+Future trends in test automation.
+Final Notes

@@ -1,5 +1,5 @@
 const {test, expect} = require('@playwright/test');
-test.only("Client App Login", async ({browser}) => {
+test("Client App Login", async ({browser}) => {
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto("https://rahulshettyacademy.com/client/auth/user");
@@ -58,13 +58,17 @@ test.only("Client App Login", async ({browser}) => {
     await page.locator("button[routerlink*='myorders']").click();
     //Get all rows
     const rows = page.locator('tbody tr');
+    await page.locator("tbody").waitFor();  //As table takes time to load
     for(let i=0;i<await rows.count();i++){
         const rowOrderId = await rows.nth(i).locator("th").textContent();
         if(orderId.includes(rowOrderId)){
+            await rows.nth(i).locator("button").first().waitFor();
             await rows.nth(i).locator("button").first().click();
             break;
         }
     }
+    const orderIdDetails = await page.locator(".col-text").first().textContent();
+    expect(orderId.includes(orderIdDetails)).toBeTruthy();
     await page.pause();
 });
 
