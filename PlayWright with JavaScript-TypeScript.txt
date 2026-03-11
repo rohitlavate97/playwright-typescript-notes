@@ -805,5 +805,13 @@ test.only("Pop Up Validations", async({browser}) =>{
 });
 
   -Automating Java/JS Alert Popup: i.e dialogu on() method help you to listen for events, it will emit when that event occured --> Step gets notified
-   and write action as 2nd argument
    ------------------------------
+   and write action as 2nd argument
+    console.log("Checking confirm dialog");
+    await page.locator("#confirmbtn").click();
+    page.on("dialog", dialog => dialog.accept());
+    await page.locator("#mousehover").hover();
+
+  -Automating frames: 
+   -----------------
+   

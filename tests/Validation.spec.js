@@ -15,5 +15,10 @@ test.only("Pop Up Validations", async({browser}) =>{
     await page.locator("#confirmbtn").click();
     page.on("dialog", dialog => dialog.accept());
     await page.locator("#mousehover").hover();
+    console.log("Switching to frame");
+    const framePage = page.frameLocator("#courses-iframe");
+    await framePage.locator("li a[href='lifetime-access']:visible").click();
+    const textCheck = await framePage.locator(".text h2").textContent();
+    console.log(textCheck.split(" ")[1]);
     await page.pause();
 });
