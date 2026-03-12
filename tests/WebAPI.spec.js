@@ -24,6 +24,20 @@ test.beforeAll("Login via API",async() =>{
 });
 
 test("Client App Login with API",async({browser}) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
     // reuse the token obtained in beforeAll
     console.log(token);
+    //Insert token in localStorage
+    page.addInitScript(value => {
+        window.localStorage.setItem('token',value)
+    },token);     // parameter needed for function,send as second argument
+    const email = '';
+    const productName = 'ZARA COAT 3';
+    await page.goto("https://rahulshettyacademy.com/client/auth/user");
+    const products =await page.locator(".card-body");
+    //await page.waitForLoadState("networkidle");
+    await page.locator('.card-body b').first().waitFor();
+    await products.filter({hasText: productName})
+        .getByRole("button",{name:" Add To Cart"}).click();
 })
