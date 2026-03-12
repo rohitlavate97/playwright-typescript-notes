@@ -821,4 +821,19 @@ test.only("Pop Up Validations", async({browser}) =>{
     await framePage.locator("li a[href='lifetime-access']:visible").click();  //Traverse from framepage to locator
     const textCheck = await framePage.locator(".text h2").textContent();
     console.log(textCheck.split(" ")[1]);
+
+--API Testing with Playwright:
+  --------------------------
+-Understanding the Importance of API Integration calls from web tests:
+ --------------------------------------------------------------------
+ -For login --> In the backend, happens login call in which details such as uname,password set as request to api server --> In response, we get Session token --> use it for authenticate
+ -After click on login check network in console -> login call can be seen.
+    --Go to Headers --> We can see API call made on call
+	--Go to PayloaD --> contains details ie emailId, Password. whatever entered from frontend( as JSON)
+	--Go to Response --> It gives token,userid and message (Login successful)
+ -Using postman, we can send POST request and see response. once we get token developer set it in session storage.
+ -Go to application in browser --> Storage --> Local Storage -->Expand it --> Click on site present --> on right side see token(Which got automatically stored)
+ -Session cookies contains info about id and password (Actually this cookie generated when you initially logged in, login call is made and response is passed and set their for other calls)
+  ie even when we are not sending id and password via url, still browser has this information with use of session cookies. 
+ - We can open app in incognito and pass session cookies and still logged in. --> create key as 'token', and paste value of token here 
    
