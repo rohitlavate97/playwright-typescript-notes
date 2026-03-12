@@ -836,4 +836,7 @@ test.only("Pop Up Validations", async({browser}) =>{
  -Session cookies contains info about id and password (Actually this cookie generated when you initially logged in, login call is made and response is passed and set their for other calls)
   ie even when we are not sending id and password via url, still browser has this information with use of session cookies. 
  - We can open app in incognito and pass session cookies and still logged in. --> create key as 'token', and paste value of token here 
+ 
+-Playwright request method to make API Calls and grab response:
+ -------------------------------------------------------------
    
