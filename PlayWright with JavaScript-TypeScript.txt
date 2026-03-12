@@ -812,6 +812,13 @@ test.only("Pop Up Validations", async({browser}) =>{
     page.on("dialog", dialog => dialog.accept());
     await page.locator("#mousehover").hover();
 
-  -Automating frames: 
+  -Automating frames: -->TagName --> iframe/frameset, iframe on webpage are identified by using frameName/ids
    -----------------
+   -we have to switch to frame and then act upon it.
+    console.log("Switching to frame");
+    const framePage = page.frameLocator("#courses-iframe");
+	//If 2 elements matches locator, and first is not visible, tell playwright to match one which is visible --> using :visible
+    await framePage.locator("li a[href='lifetime-access']:visible").click();  //Traverse from framepage to locator
+    const textCheck = await framePage.locator(".text h2").textContent();
+    console.log(textCheck.split(" ")[1]);
    
