@@ -882,3 +882,67 @@ test("Client App Login with API",async({browser}) => {
     await products.filter({hasText: productName})
         .getByRole("button",{name:" Add To Cart"}).click();
 })
+
+Note: Token can be anywhere, can be named anything. Check how developed ie how developer storing session info to login
+
+--Place Order API to create order and bypass the flow in UI with mix of Web and API:
+  ---------------------------------------------------------------------------------
+  -Verify if order created is showing in history page --> Precondition->create order
+   Their is API call to create-order, the order should be created for logged in user (Token comes from login call)
+   Here in the header -> We are sending Authorization (In request headers) --> Token present as value inside this key. i.e using token in header, hit create-order
+   In json response we get 'orderId', copy it. Go to order history page(Orders) and search it.
+
+--End to End validation with mix of API and Web Concepts:
+  ------------------------------------------------------
+const {test,expect,request} = require('@playwright/test');
+//while login, payload stored as JavaScript object
+const loginPayload = {
+    "userEmail": "rohit.lavate287@gmail.com",
+    "userPassword": "Admin@123"
+}
+
+const orderPayload = {
+    orders: [
+        {
+    "country": "India",
+    "productOrderedId": "6960eac0c941646b7a8b3e68"
+        }
+    ]
+}
+
+let token, apiContext, orderId;
+
+test.beforeAll("Extracting token", async() =>{
+    apiContext = await request.newContext();
+    const loginRes = await apiContext.post("https://rahulshettyacademy.com/api/ecom/auth/login",
+        {
+            data: loginPayload
+        });
+    const loginResJson = await loginRes.json();
+    //console.log(loginResJson);
+    token = loginResJson.token;
+    console.log(token);
+});
+
+test.only("E2E testing with use of UI and API's", async({browser}) =>{
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    page.addInitScript(value => {
+        window.localStorage.setItem('token',value)
+    },token);
+    const productName = 'ZARA COAT 3';
+    await page.goto("https://rahulshettyacademy.com/client/auth/user");
+    const products = page.locator('.card-body');
+    await page.locator('.card-body b').first().waitFor();
+    await products.filter({hasText: productName}).getByRole("button",{name:" Add To Cart"}).click();
+    const orderResponse =await apiContext.post("https://rahulshettyacademy.com/api/ecom/order/create-order",{
+        data: orderPayload,
+        headers: {
+           'Authorization': token,
+           'Content-Type': 'application/json'
+        }
+    })
+    const orderResponseJson = await orderResponse.json();
+    orderId = orderResponseJson.orders[0];
+    console.log(orderId);
+});
