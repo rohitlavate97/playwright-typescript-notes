@@ -45,6 +45,8 @@ Note: For const, we can't reassign also, it will throw TypeError: Assignment to 
 
 Note: y = 3 //If we don't mention type of variable--> It is by default var
 
+Note: const require initialization immediately, let allows initialization later
+
 --Loops and Conditions in Js:
   --------------------------
 const flag = true
