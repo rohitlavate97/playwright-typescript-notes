@@ -1,6 +1,7 @@
 class APIUtils {
-    constructor(apiContext){
+    constructor(apiContext,loginPayload){
         this.apiContext = apiContext
+        this.loginPayload = loginPayload;
     }
     async getToken(){
         const loginResponse = await apiContext.post("https://rahulshettyacademy.com/api/ecom/auth/login",
@@ -28,4 +29,4 @@ class APIUtils {
     return orderId;
     }
 }
-module.exports = {APIUtils}
+module.exports = {APIUtils}  
