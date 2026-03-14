@@ -1,5 +1,5 @@
 const {test,expect,request} = require('@playwright/test');
-//while login, payload stored as JavaScript object
+const { APIUtils } = require('../utils/APIUtils');
 const loginPayload = {
     "userEmail": "rohit.lavate287@gmail.com",
     "userPassword": "Admin@123"
@@ -14,17 +14,12 @@ const orderPayload = {
     ]
 }
 
-let token, apiContext, orderId;
+let response;
 
 test.beforeAll("Extracting token", async() =>{
-    apiContext = await request.newContext();
-    const loginRes = await apiContext.post("https://rahulshettyacademy.com/api/ecom/auth/login",
-        {
-            data: loginPayload
-        });
-    const loginResJson = await loginRes.json();
-    //console.log(loginResJson);
-    token = loginResJson.token;
-    console.log(token);
+    const apiContext = await request.newContext();
+    const apiUtils = new APIUtils(apiContext,loginPayload);
+    response = await apiUtils.createOrder(orderPayload);
 });
 
+test("", async()=>{});
