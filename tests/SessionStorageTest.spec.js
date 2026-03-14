@@ -17,7 +17,7 @@ test("Client App Login using StorageState",async()=>{ //we don't need {page} her
     const page = await webContext.newPage();
     const email = "";
     const productName = 'ZARA COAT 3';
-    page.goto("https://rahulshettyacademy.com/client");
+    await page.goto("https://rahulshettyacademy.com/client");
     const products = await page.locator(".card-body");
     const titles = await page.locator(".card-body b").allTextContents();
     console.log(titles);
