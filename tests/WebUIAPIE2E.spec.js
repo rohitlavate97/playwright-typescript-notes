@@ -51,7 +51,7 @@ test("E2E testing with use of UI and API's", async({browser}) =>{
     console.log(orderId);
 });
 
-test.only("Place the order", async({browser})=>{
+test("Place the order", async({browser})=>{
     const context = await browser.newContext();
     const page = await context.newPage();
     page.addInitScript(value => {
