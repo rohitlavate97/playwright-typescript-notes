@@ -1151,3 +1151,149 @@ test("Client App Login using StorageState",async()=>{ //we don't need {page} her
     expect: {
       timeout: 5000
     },
+
+
+Full file:
+---------
+// @ts-check
+// Import Playwright configuration utilities
+const { defineConfig, devices } = require('@playwright/test');
+// Load environment variables from .env file
+require('dotenv').config();
+/**
+ * Playwright Configuration
+ * https://playwright.dev/docs/test-configuration
+ */
+module.exports = defineConfig({
+  // Folder where all test files exist
+  testDir: './tests',
+  // Maximum time allowed for a test
+  timeout: 60 * 1000,
+  // Expect assertion timeout
+  expect: {
+    timeout: 5000
+  },
+  // Run tests in parallel inside files
+  fullyParallel: true,
+  // Fail build if test.only is accidentally committed
+  forbidOnly: !!process.env.CI,
+  // Retry failed tests
+  retries: process.env.CI ? 2 : 0,
+  // Workers (parallel threads)
+  workers: process.env.CI ? 1 : undefined,
+  // Reporter configuration
+  reporter: [
+    ['html', { open: 'never' }],
+    ['list'],
+    ['junit', { outputFile: 'results.xml' }]
+  ],
+  // Global settings applied to all tests
+  use: {
+    // Base URL used in page.goto('/')
+    baseURL: process.env.BASE_URL || 'https://rahulshettyacademy.com/client',
+    // Default browser
+    browserName: 'chromium',
+    // Run browser UI or headless
+    headless: process.env.CI ? true : false,
+    // Ignore HTTPS certificate errors
+    ignoreHTTPSErrors: true,
+    // Set viewport size
+    viewport: { width: 1280, height: 720 },
+    // Screenshot settings
+    screenshot: 'only-on-failure',
+    // Video recording
+    video: 'retain-on-failure',
+    // Trace for debugging failures
+    trace: 'retain-on-failure',
+    // Authentication reuse
+    storageState: 'state.json',
+    // Extra HTTP headers if needed
+    extraHTTPHeaders: {
+      'Accept': 'application/json'
+    },
+    // Locale settings
+    locale: 'en-US',
+    // Timezone settings
+    timezoneId: 'Asia/Kolkata'
+  },
+  // Browser projects configuration
+  projects: [
+    {
+      name: 'chromium',
+      use: {
+        ...devices['Desktop Chrome']
+      }
+    },
+    {
+      name: 'firefox',
+      use: {
+        ...devices['Desktop Firefox']
+      }
+    },
+    {
+      name: 'webkit',
+      use: {
+        ...devices['Desktop Safari']
+      }
+    },
+    // Mobile testing
+    {
+      name: 'Mobile Chrome',
+      use: {
+        ...devices['Pixel 5']
+      }
+    },
+    {
+      name: 'Mobile Safari',
+      use: {
+        ...devices['iPhone 12']
+      }
+    },
+    // Branded browsers
+    {
+      name: 'Google Chrome',
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chrome'
+      }
+    },
+    {
+      name: 'Microsoft Edge',
+      use: {
+        ...devices['Desktop Edge'],
+        channel: 'msedge'
+      }
+    }
+  ],
+  // Global login setup (runs before tests)
+  globalSetup: require.resolve('./global-setup'),
+  // Output directory for test artifacts
+  outputDir: 'test-results/',
+  // Optional web server start
+  webServer: process.env.START_SERVER
+    ? {
+        command: 'npm run start',
+        url: 'http://localhost:3000',
+        timeout: 120 * 1000,
+        reuseExistingServer: !process.env.CI
+      }
+    : undefined
+});
+
+
+--Detailed view of Trace viewer to understand the API logging request/responses:
+  -----------------------------------------------------------------------------
+  -In playwright.config.js --> trace:'on'
+  -Trace can be viewed on https://trace.playwright.dev/
+
+--How to intercept network response calls with playwright route method:
+  --------------------------------------------------------------------
+  -Login --> Login call made
+  -All product displayed on UI --> get-all-product api call made --> Response rendered data on page
+   copy response and open in Json Editor --> to see how many products from API Response
+  -Also on orders page(i.e Order History) --> If no orders --> In response "No Orders" message
+  -Can we intercept or alter this Response, can we inject mock/fake response for that session/Instance i.e Intercepting response
+
+--Understand the playwright route method and its parameters in intercepting:
+  -------------------------------------------------------------------------
+  //See endpoint which giving orders on the page
