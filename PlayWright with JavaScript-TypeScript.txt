@@ -1140,4 +1140,14 @@ test("Client App Login using StorageState",async()=>{ //we don't need {page} her
   ----------------------------------------------------
   > npx playwright test tests/TestName.spec.js --headed --debug
   This command opens playwright inspector --> only debug UI, not API calls
-  -To debug in vs code --> Go to package.json
+  -To debug in vs code --> Go to package.json  --> modify following
+  "scripts": {
+    "test": "npx playwright test tests/SessionStorageTest.spec.js --headed"
+  },
+  -(Shift + ctrl + P) --> Type to debug script --> Opens debug npm script and runs
+  -To increase timeout in playwright.config.ts  --> Modify as following
+    testDir: './tests',
+    timeout: 60000,
+    expect: {
+      timeout: 5000
+    },
