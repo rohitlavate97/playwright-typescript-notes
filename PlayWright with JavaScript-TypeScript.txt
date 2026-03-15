@@ -1326,20 +1326,26 @@ test("@Network Place the order", async({page})=>{
     page.addInitScript(value =>{
         window.localStorage.setItem('token',value);
     },response.token);
-
+    //route method contains 2 arguments --> first url we want to route, second argument how we want to route
     await page.route("https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*",
         async route => {
-            const response = await page.request.fetch(route.request());
-            let body = JSON.stringify(fakePayloadOrders);
-            await route.fulfill(
-                {
+           //Intercepting response --> Api response -->Hijack response here --> Send fake response --> browser --> read data on front end
+           //route.request() -->as we passing request, we can pass headers and more
+            const response = await page.request.fetch(route.request());    //turning page mode to API mode, fetching response and API calls
+            let body = JSON.stringify(fakePayloadOrders);                  //Insert fake response into body i.e fakePayloadOrders already created. Convert JS object to JSON
+            await route.fulfill(                                           //fulfill method expect to have order --> override existing body what it have with what we are sending
+                {                                                          //If not sent, use existing body.
                     response,
                     body,
                 });
         });
 
     await page.goto("https://rahulshettyacademy.com/client");
-    await page.locator("button[routerlink*='myorders']").click();
-    await page.waitForResponse("https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*");
-    console.log(await page.locator('.mt-4').textContent());
+    //routing should happen before we actually click here. We have to tell playwright, whenever you encouter, do this. It should be aware in advance so look browser activity,
+    //It will keep listening to url
+    //Here we added next two lines, as receiving response may delay, but as we are setting response early. But fake response should come after response written back and then
+    //fake it and send to browser
+    await page.locator("button[routerlink*='myorders']").click();  
+    await page.waitForResponse("https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*");  //* --> WildCard expression --> accept anything.ss
+    console.log(await page.locator('.mt-4').textContent());    //It may give error, as request context disposed --> error on fetch()
 });
