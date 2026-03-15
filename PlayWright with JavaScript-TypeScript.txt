@@ -1380,3 +1380,9 @@ test("@Securrity Test request intercept",async({page})=>{
     await expect(page.locator(" p").last()).toHaveText(" You are not authorize to view the order");
     await page.pause();
 });
+
+--How to abort the Network calls:
+  ------------------------------
+  -response never reaches browser --> server is down
+  -Network call --> Not just fetch/XHR --> Al calls
+  
