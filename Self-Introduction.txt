@@ -1,0 +1,42 @@
+Good morning/afternoon.
+
+My name is **Rohit Lavate**, and I am from **Ichalkaranji, Maharashtra**. I am currently working at **Morningstar** as a **QA Automation Engineer**, 
+and I have around **4 years of experience** in software testing and automation.
+
+I am currently working in the **Investment Banking domain**, 
+where I am involved in testing financial applications and ensuring high-quality software delivery.
+
+In my project, we follow the **Agile/Scrum methodology**, and I actively participate in all Agile ceremonies 
+such as **backlog grooming sessions, sprint planning meetings, daily stand-ups, sprint reviews, and sprint retrospectives**.
+
+I have a good understanding of the **Software Development Life Cycle (SDLC)** and **Software Testing Life Cycle (STLC)**. 
+Throughout my career, I have worked on different types of testing including **sanity testing,
+ smoke testing, black-box testing, regression testing, retesting, functional testing, and non-functional testing**.
+
+From an automation perspective, I have strong experience in **Selenium with Java** 
+for UI automation and **Rest Assured with Java and TestNG** for API automation. Recently, we have also started exploring 
+**Playwright for both UI and API testing** to improve test speed and reliability.
+
+For manual API validation, I use **Postman**, 
+and for running API collections through the command line we use **Newman**.
+
+Additionally, we integrate our automation suites with **Jenkins for CI/CD**, 
+which helps us execute automated tests as part of our build pipeline and ensures faster feedback during deployments.
+
+Overall, I enjoy working on automation frameworks, improving test coverage, and ensuring the quality and stability of applications.
+
+
+--Shorter Version
+  ---------------
+Hi, my name is Rohit Lavate, and I am from Ichalkaranji. I am currently working at Morningstar as a QA Automation Engineer with around 4 years of experience in software testing.
+
+I work in the Investment Banking domain and follow Agile methodology in my project, where I actively participate in all Agile ceremonies such as sprint planning, daily stand-ups, sprint reviews, and retrospectives.
+
+I have good experience in both manual and automation testing. I have performed different types of testing such as smoke testing, sanity testing, regression testing, retesting, and functional testing.
+
+For automation, I mainly work with Selenium using Java and TestNG for UI automation, and Rest Assured for API testing. Recently, we have also started exploring Playwright for UI and API automation.
+
+For API testing we use Postman and Newman, and our automation suites are integrated with Jenkins as part of the CI/CD pipeline.
+
+That’s a brief overview about me.
+
