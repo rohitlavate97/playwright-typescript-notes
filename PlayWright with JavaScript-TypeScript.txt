@@ -1349,3 +1349,17 @@ test("@Network Place the order", async({page})=>{
     await page.waitForResponse("https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*");  //* --> WildCard expression --> accept anything.ss
     console.log(await page.locator('.mt-4').textContent());    //It may give error, as request context disposed --> error on fetch()
 });
+
+--How to intercept Network request calls with Playwright:
+  ------------------------------------------------------
+  -Security Testing Scenario:
+   Orders page --> To see details for any orderId --> Click on View order
+   In url --> Id concatenated in url --> Hackers can using 3rd party call can tweak request calls --> Can send id not belong to this user --> Forbidden error(i.e Not authorized to see details)
+   When try to access other order not available for your account but other account
+  -Login and reach orders page --> User try to click view --> Intercept and give other url in request call(request url)
+  route.continue() --> once you receive this request --> continue with modified body (id = '-------') --> Before sending to browser, we tweak it
+  Also header can be intercept
+  route.continue({headers,url:'https://google.com',cookies:---});
+  route.continue({})
+  in url --> order is actual but internally we tweaked it
+  Note: For more info --> https://playwright.dev/docs/api/class-route
